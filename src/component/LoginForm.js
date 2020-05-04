@@ -17,6 +17,7 @@ const LoginForm = () => {
         if(status === 'success'){
             dispatch(logIn(username));
             Cookies.set('X-AUTH-TOKEN', token);
+            console.log('token=>', token);
         }else{
             dispatch(logOut());
         }
