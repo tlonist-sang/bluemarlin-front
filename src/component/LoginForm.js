@@ -4,6 +4,7 @@ import {requestLogin} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
 import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const LoginForm = () => {
         const {status, token} = await requestLogin(username, password);
         if(status === 'success'){
             dispatch(logIn(username));
+            Cookies.set('X-AUTH-TOKEN', token);
         }else{
             dispatch(logOut());
         }
