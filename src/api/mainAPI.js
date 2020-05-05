@@ -1,13 +1,16 @@
 import bluemarlinAPI from "./defaultApiUrl";
-import Cookies from "js-cookie";
 const queryString = require('querystring');
 
 
-export const getUrlSourceList = async () => {
+
+export const getUrlSourceList = async (token) => {
     let response;
-    debugger;
+
+    console.log('retrieved->',token);
     await bluemarlinAPI.get('/api/v1/url',{
-            headers: {"X-AUTH-TOKEN":Cookies.get('access-token')}
+            headers: {
+                "X-AUTH-TOKEN":token
+            }
         })
         .then((res)=>{
             response = res.data;

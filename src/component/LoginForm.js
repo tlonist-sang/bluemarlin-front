@@ -1,22 +1,45 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
-import {requestLogin} from "../api/loginAPI";
+import {requestLogin, validateLocalStorageToken} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
 import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
-import Cookies from "js-cookie";
+import {useCookies} from "react-cookie";
+import bluemarlinAPI from "../api/defaultApiUrl";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, errors } = useForm();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(['access-token']);
+
+
+    useEffect(()=>{
+        let token = localStorage.getItem('access-token');
+        bluemarlinAPI.get('/login-validation', {
+            headers: {
+                "X-AUTH-TOKEN":token
+            }
+        }).then(res=>{
+            console.log('validate localStorage result res=>', res);
+            debugger;
+            let {status, data} = res;
+            if(status === 200){
+                dispatch(logIn(data));
+            }
+
+        }).catch(e=>{
+            console.log('error=>',e);
+        })
+    });
 
     const onSubmit = async () => {
         const {status, token} = await requestLogin(username, password);
         if(status === 'success'){
             dispatch(logIn(username));
-            Cookies.set('X-AUTH-TOKEN', token);
+            setCookie('access-token', token, {'httoOnly':true})
+            localStorage.setItem('access-token', token);
             console.log('token=>', token);
         }else{
             dispatch(logOut());
@@ -24,7 +47,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className={"ui center aligned grid"} style={{"margin-top":"200px"}}>
+        <div className={"ui center aligned grid"} style={{"marginTop":"200px"}}>
             <div className={"column"}>
                 <img className={"logo"} src={bluemarlin}/>
                 <form className={"ui large form form-margin"} onSubmit={handleSubmit(onSubmit)}>

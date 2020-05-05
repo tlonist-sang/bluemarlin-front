@@ -23,3 +23,19 @@ export const requestLogin = async (username, password) => {
         });
     return response;
 }
+
+export const validateLocalStorageToken = async (token)=> {
+    let response;
+    await bluemarlinAPI.get('/login-validation', {
+        headers: {
+            "X-AUTH-TOKEN":token
+        }
+    }).then(res=>{
+        console.log('validate localStorage result res=>', res);
+        response = res;
+    }).catch(e=>{
+        response = 'error';
+    })
+
+    return response;
+}
