@@ -3,12 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
-
-// var source_dir = __dirname + '/src/main/resources/static',
-//     node_dir = __dirname + '/node_modules',
-//     dev_port = 8081;
-
-
 module.exports = {
     entry: './src/index.js',                            // 리액트 파일이 시작하는 곳
     output: {                                           // bundled compiled 파일

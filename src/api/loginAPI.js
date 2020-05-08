@@ -6,20 +6,28 @@ const queryString = require('querystring');
 
 
 export const requestLogin = async (username, password) => {
-    let response;
-    await bluemarlinAPI.post('/auth', queryString.stringify({
-        username: username,
-        password: password
-    }))
-        .then((res)=>{
-            response = res.data;
-        })
-        .catch((e)=>{
-            console.log(e);
-            response = 'error';
-        })
-        .finally(()=>{
-            console.log('login processed');
-        });
+    let url = '/auth';
+    let option = {
+        method: 'POST',
+        url: url,
+        params: {
+            username: username,
+            password: password
+        }
+    }
+    let response = await bluemarlinAPI(option)
+    return response.data;
+}
+
+export const validateLocalStorageToken = async (token)=> {
+    let url = '/login-validation';
+    let option = {
+        method: 'GET',
+        url: url,
+        headers: {
+            "X-AUTH-TOKEN":token
+        }
+    }
+    let response = await bluemarlinAPI(option)
     return response;
 }
