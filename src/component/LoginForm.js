@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {requestLogin, validateLocalStorageToken} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
@@ -14,6 +14,10 @@ const LoginForm = () => {
     const [password, setPassword] = useState(null);
     const [cookies, setCookie, removeCookie] = useCookies(['access-token']);
 
+    const validateLogin = async() => {
+        let token = await localStorage.getItem('access-token');
+        let response  = await validateLocalStorageToken(token);
+    }
 
     useEffect(()=>{
         let token = localStorage.getItem('access-token');
@@ -34,7 +38,9 @@ const LoginForm = () => {
         })
     });
 
+
     const onSubmit = async () => {
+        debugger;
         const {status, token} = await requestLogin(username, password);
         if(status === 'success'){
             dispatch(logIn(username));
