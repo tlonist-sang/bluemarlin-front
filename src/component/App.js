@@ -12,7 +12,7 @@ const App = () => {
     const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
     console.log("loggedIn?" + isLoggedIn);
     return(
-        <div className={"main"}>
+        <div className={isLoggedIn?null:"main"}>
             {isLoggedIn?<Main/>:<LoginForm/>}
         </div>
     )
