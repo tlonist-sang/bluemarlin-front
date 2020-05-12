@@ -63,7 +63,6 @@ const LoginForm = () => {
                         <div className={"ui left icon input"}>
                             <input type={"text"} name={"username"} placeholder={"Enter ID"}
                                 ref={usernameRef}
-                                // onChange={(e)=>setUsername(e.target.value)}
                             />
                         </div>
                     </div>
@@ -71,7 +70,6 @@ const LoginForm = () => {
                         <div className={"ui left icon input"}>
                             <input type={"password"} name={"password"} placeholder={"Enter password"}
                                 ref={passwordRef}
-                            /*       onChange={(e)=>{setPassword(e.target.value)}}*/
                             />
                         </div>
                     </div>

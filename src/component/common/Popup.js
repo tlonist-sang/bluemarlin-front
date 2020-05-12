@@ -1,22 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {useDispatch} from "react-redux";
+import {closePopup} from "../../actions/PopupActions";
 
 
 const Popup = ({title, content, actions, onDismiss}) => {
-    return ReactDOM.createPortal(
-        <div onClick={onDismiss} className={"ui dimmer modals visible active"}>
-            <div onClick={(e) => e.stopPropagation()} className={"ui standard modal visible active"}>
-                <div className={"header"}>{title}</div>
-                <div className={"content"}>
-                    {content}
-                </div>
-                <div className={"actions"}>
-                    {actions}
-                </div>
+    const dispatch = useDispatch();
+    const onClose = () => {
+        dispatch(closePopup)
+    }
+
+    return(
+        <div>
+            <div>
+                title:{title}
             </div>
-        </div>,
-        document.querySelector('#modal')
-    );
+            <div>
+                content:{content}
+                <button onClick={onClose}>cancel</button>
+            </div>
+        </div>
+    )
 }
 
 export default Popup;

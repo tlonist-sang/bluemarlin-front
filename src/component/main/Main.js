@@ -5,8 +5,6 @@ import {useCookies} from "react-cookie";
 import {logOut} from "../../actions";
 import UrlSource from "./UrlSource";
 
-
-
 const Main = () => {
     const [urlSource, setUrlSource] = useState({});
     const [cookies, setCookie] = useCookies(['access-token'])
@@ -70,6 +68,7 @@ const Main = () => {
             <div>
                 {renderUrlSources()}
             </div>
+
         </div>
     )
 }
