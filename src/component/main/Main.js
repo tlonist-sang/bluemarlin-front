@@ -3,11 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUrlSourceList} from "../../api/mainAPI";
 import {useCookies} from "react-cookie";
 import {logOut} from "../../actions";
-
-
+import UrlSource from "./UrlSource";
 
 const Main = () => {
-    const {urlSource, setUrlSource} = useState({});
+    const [urlSource, setUrlSource] = useState({});
     const [cookies, setCookie] = useCookies(['access-token'])
 
     const userId = useSelector(state => state.auth.userId);
@@ -15,6 +14,9 @@ const Main = () => {
 
     const getUrlSources = useCallback(async () => {
         let response = await getUrlSourceList(cookies['access-token']);
+        if(response.status  === 'success'){
+            setUrlSource(response.data);
+        }
     }, []);
 
     const onLogOut = () => {
@@ -22,31 +24,51 @@ const Main = () => {
         localStorage.setItem('access-token', null);
     };
 
+    const isEmtpyObject = (param) => {
+        return Object.keys(param).length === 0;
+    }
+
     const renderUrlSources = () => {
-        urlSource.forEach(source=>{
+        if(!isEmtpyObject(urlSource)) {
             return (
-                <div>
-                    {source.url}
+                <div className={"key-list"}>
+                    {urlSource.map((value, index) => {
+                        return (
+                            <div className={"ui celled grid"}>
+                                <div className={"row"}>
+                                    <UrlSource
+                                        url = {value.url}
+                                        keyList={value.keywordDtoList}
+                                    />
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             )
-        })
+        }
     };
 
+    useEffect(()=>{
+        getUrlSources();
+    }, []);
+
     useEffect( ()=>{
-        let {status, data, count} = getUrlSources();
-        if(status === 'success'){
-            setUrlSource(data);
-        }
-    }, [getUrlSources]);
+    }, [urlSource]);
 
     return (
         <div>
-            Logged In As : {userId}
-            <button className={"ui green button massive"}>Add Source</button>
+
+            <div className={"ui blue button massive"}>User : {userId}</div>
+            {/*<button className={"ui green button massive"}>Add Source</button>*/}
             <div className={"ui grey button massive"} onClick={onLogOut}>
                 Logout
             </div>
-            {urlSource!==undefined?renderUrlSources():null}
+            <div className="ui horizontal divider"/>
+            <div>
+                {renderUrlSources()}
+            </div>
+
         </div>
     )
 }

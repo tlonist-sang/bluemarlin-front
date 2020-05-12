@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {useForm} from "react-hook-form";
 import {requestLogin, validateLocalStorageToken} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
@@ -10,8 +10,10 @@ import bluemarlinAPI from "../api/defaultApiUrl";
 const LoginForm = () => {
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, errors } = useForm();
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const usernameRef = useRef(null);
+    const passwordRef = useRef(null);
+
+
     const [cookies, setCookie, removeCookie] = useCookies(['access-token']);
 
     const validateLogin = async() => {
@@ -27,7 +29,6 @@ const LoginForm = () => {
             }
         }).then(res=>{
             console.log('validate localStorage result res=>', res);
-            debugger;
             let {status, data} = res;
             if(status === 200){
                 dispatch(logIn(data));
@@ -38,9 +39,10 @@ const LoginForm = () => {
         })
     });
 
-
     const onSubmit = async () => {
-        debugger;
+        let username = usernameRef.current.value;
+        let password = passwordRef.current.value;
+
         const {status, token} = await requestLogin(username, password);
         if(status === 'success'){
             dispatch(logIn(username));
@@ -59,12 +61,16 @@ const LoginForm = () => {
                 <form className={"ui large form form-margin"} onSubmit={handleSubmit(onSubmit)}>
                     <div className={"field"}>
                         <div className={"ui left icon input"}>
-                            <input type={"text"} name={"username"} placeholder={"Enter ID"} onChange={(e)=>setUsername(e.target.value)}/>
+                            <input type={"text"} name={"username"} placeholder={"Enter ID"}
+                                ref={usernameRef}
+                            />
                         </div>
                     </div>
                     <div className={"field"}>
                         <div className={"ui left icon input"}>
-                            <input type={"password"} name={"password"} placeholder={"Enter password"} onChange={(e)=>{setPassword(e.target.value)}}/>
+                            <input type={"password"} name={"password"} placeholder={"Enter password"}
+                                ref={passwordRef}
+                            />
                         </div>
                     </div>
 
