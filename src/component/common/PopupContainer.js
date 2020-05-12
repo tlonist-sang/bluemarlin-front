@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
 import Popup from "./Popup";
 
 const PopupContainer = () => {
     const {type, id, title, content, actions, onDismiss} = useSelector(state=>state.popup);
+    useEffect(()=>{
+    }, [type]);
+
     return(
         <div>
             {type?
