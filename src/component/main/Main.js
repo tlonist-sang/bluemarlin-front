@@ -58,9 +58,7 @@ const Main = () => {
 
     return (
         <div>
-
             <div className={"ui blue button massive"}>User : {userId}</div>
-            {/*<button className={"ui green button massive"}>Add Source</button>*/}
             <div className={"ui grey button massive"} onClick={onLogOut}>
                 Logout
             </div>

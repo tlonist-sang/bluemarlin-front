@@ -11,7 +11,6 @@ import PopupContainer from "./common/PopupContainer";
 
 const App = () => {
     const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
-    console.log("loggedIn?" + isLoggedIn);
     return(
         <div className={isLoggedIn?null:"main"}>
             {isLoggedIn?<Main/>:<LoginForm/>}
