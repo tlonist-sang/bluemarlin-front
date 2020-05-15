@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import Popup from "./Popup";
 
 const PopupContainer = () => {
-    const {type, id, title, content, actions, onDismiss} = useSelector(state=>state.popup);
+    const {type, id, title, content, contentComponent, actions, onDismiss, disableFooter} = useSelector(state=>state.popup);
     useEffect(()=>{
     }, [type]);
 
@@ -13,8 +13,10 @@ const PopupContainer = () => {
                 <Popup
                     title={title}
                     content={content}
+                    contentComponent={contentComponent}
                     actions={actions}
                     onDismiss={onDismiss}
+                    disableFooter={disableFooter}
                 />
                 :null}
         </div>

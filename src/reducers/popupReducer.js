@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     id: null,
     title: null,
     content: null,
+    contentComponent: null,
     actions: null,
     onDismiss: null
 };
@@ -18,8 +19,10 @@ export default (state = INITIAL_STATE, action)=>{
                 id: action.payload.id,
                 title: action.payload.title,
                 content: action.payload.content,
+                contentComponent: action.payload.contentComponent,
                 actions: action.payload.actions,
-                onDismiss: action.payload.onDismiss
+                onDismiss: action.payload.onDismiss,
+                disableFooter: action.payload.disableFooter
             };
         case KEYWORD_EDIT:
             return {...state,
@@ -27,8 +30,10 @@ export default (state = INITIAL_STATE, action)=>{
                 id: action.payload.id,
                 title: action.payload.title,
                 content: action.payload.content,
+                contentComponent: action.payload.contentComponent,
                 actions: action.payload.actions,
-                onDismiss: action.payload.onDismiss
+                onDismiss: action.payload.onDismiss,
+                disableFooter: action.payload.disableFooter
             };
         case KEYWORD_DELETE:
             return {...state,
@@ -36,8 +41,10 @@ export default (state = INITIAL_STATE, action)=>{
                 id: action.payload.id,
                 title: action.payload.title,
                 content: action.payload.content,
+                contentComponent: action.payload.contentComponent,
                 actions: action.payload.actions,
-                onDismiss: action.payload.onDismiss
+                onDismiss: action.payload.onDismiss,
+                disableFooter: action.payload.disableFooter
             };
         case CLOSE_POPUP:
             return {

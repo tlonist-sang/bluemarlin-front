@@ -1,8 +1,6 @@
 import bluemarlinAPI from "./defaultApiUrl";
 const queryString = require('querystring');
 
-
-
 export const getUrlSourceList = async (token) => {
     let url = '/api/v1/url';
     let option = {
@@ -16,7 +14,7 @@ export const getUrlSourceList = async (token) => {
     return response.data;
 }
 
-export const addKeyword = async(token, {userId, urlName, keywordToAdd}) => {
+export const addKeyword = async(token, urlId, keywordToAdd) => {
     let url = "/api/v1/keyword"
     let option = {
         method: 'PUT',
@@ -24,9 +22,8 @@ export const addKeyword = async(token, {userId, urlName, keywordToAdd}) => {
         headers: {
             "X-AUTH-TOKEN":token
         },
-        params: {
-            userId: userId,
-            urlName: urlName,
+        data: {
+            urlId: urlId,
             keyword: keywordToAdd
         }
     }
@@ -34,7 +31,7 @@ export const addKeyword = async(token, {userId, urlName, keywordToAdd}) => {
     return response.data;
 }
 
-export const deleteKeyword = async (token, userId, urlName, keywordToDelete) => {
+export const deleteKeyword = async (token, urlId, keywordToDelete) => {
     let url = "/api/v1/keyword"
     let option = {
         method: 'DELETE',
@@ -43,12 +40,10 @@ export const deleteKeyword = async (token, userId, urlName, keywordToDelete) => 
             "X-AUTH-TOKEN":token
         },
         data: {
-            userId: userId,
-            urlName: urlName,
+            urlId: urlId,
             keyword: keywordToDelete
         }
     }
-    debugger;
     let response = await bluemarlinAPI(option);
     return response.data;
 }

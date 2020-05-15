@@ -2,17 +2,11 @@ import React, {useEffect, useState} from "react";
 import KeywordList from "./KeywordList";
 import Loading from "../common/Loading";
 
-const UrlSource = ({url, keyList}) => {
+const UrlSource = ({url, urlId, keyList}) => {
     const [keywordFromUrl, setKeywordFromUrl] = useState(keyList);
     useEffect(()=>{
-        debugger;
-        console.log('urlsource-keylist -> ', keyList);
         setKeywordFromUrl(keyList);
     }, [])
-
-    // useEffect(()=>{
-    //
-    // }, [keywordFromUrl]);
 
     return (
         <div className={"item"}>
@@ -20,7 +14,7 @@ const UrlSource = ({url, keyList}) => {
             <div className="ui horizontal divider"/>
             {(keywordFromUrl!==null && keywordFromUrl !== undefined)?
                 <KeywordList
-                    url = {url}
+                    urlId = {urlId}
                     keyList = {keywordFromUrl}
                     setKeyList = {setKeywordFromUrl}
                 />:

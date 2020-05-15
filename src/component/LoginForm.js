@@ -28,7 +28,6 @@ const LoginForm = () => {
                 "X-AUTH-TOKEN":token
             }
         }).then(res=>{
-            console.log('validate localStorage result res=>', res);
             let {status, data} = res;
             if(status === 200){
                 dispatch(logIn(data));
@@ -48,7 +47,6 @@ const LoginForm = () => {
             dispatch(logIn(username));
             setCookie('access-token', token, {'httoOnly':true})
             localStorage.setItem('access-token', token);
-            console.log('token=>', token);
         }else{
             dispatch(logOut());
         }

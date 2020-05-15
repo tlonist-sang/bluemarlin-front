@@ -38,7 +38,8 @@ const Main = () => {
                                 <div className={"row"}>
                                     <UrlSource
                                         url = {value.url}
-                                        keyList={value.keywordDtoList}
+                                        urlId = {value.id}
+                                        keyList={value.keywordDtoList.map(v=>{return v.word})}
                                     />
                                 </div>
                             </div>
