@@ -34,3 +34,7 @@
 .key-list{
     margin: 0 50px 0 50px;
 }
+
+.x-icon:focus{
+    cursor: pointer
+}

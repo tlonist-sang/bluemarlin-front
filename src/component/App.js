@@ -8,13 +8,16 @@ import {Link, Route, Switch} from 'react-router-dom';
 import {validateLocalStorageToken} from "../api/loginAPI";
 import {logIn} from "../actions";
 import PopupContainer from "./common/PopupContainer";
+import {toast, ToastContainer} from "react-toastify";
 
+toast.configure();
 const App = () => {
     const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
     return(
         <div className={isLoggedIn?null:"main"}>
             {isLoggedIn?<Main/>:<LoginForm/>}
             <PopupContainer/>
+            <ToastContainer/>
         </div>
     )
 }
