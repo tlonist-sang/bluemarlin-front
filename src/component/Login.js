@@ -1,52 +1,51 @@
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {useForm} from "react-hook-form";
-import {requestLogin, validateLocalStorageToken} from "../api/loginAPI";
+import {requestLogin, validateAuthToken, validateRefreshToken} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
 import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
 import {useCookies} from "react-cookie";
 import bluemarlinAPI from "../api/defaultApiUrl";
 
-const LoginForm = () => {
+const Login = () => {
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, errors } = useForm();
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
-
-
     const [cookies, setCookie, removeCookie] = useCookies(['access-token']);
 
     const validateLogin = async() => {
-        let token = await localStorage.getItem('access-token');
-        let response  = await validateLocalStorageToken(token);
+        let token = await cookies['access-token'];
+        let response  = await validateAuthToken(token);
+        return response;
     }
 
     useEffect(()=>{
-        let token = localStorage.getItem('access-token');
-        bluemarlinAPI.get('/login-validation', {
-            headers: {
-                "X-AUTH-TOKEN":token
-            }
-        }).then(res=>{
-            let {status, data} = res;
-            if(status === 200){
-                dispatch(logIn(data));
-            }
-
-        }).catch(e=>{
-            console.log('error=>',e);
-        })
+        validateLogin()
+            .then(res=>{
+                let {status, data} = res;
+                if(status === 200){
+                    dispatch(logIn(data));
+                }
+            })
+            .catch(async(e)=>{
+                if(e.response.status === 500){
+                    let refreshToken = localStorage.getItem('refresh-token');
+                    let response = await validateRefreshToken(refreshToken);
+                    await setCookie('access-token', response.headers["x-auth-token"], {'httoOnly':true})
+                }
+            });
     });
 
     const onSubmit = async () => {
         let username = usernameRef.current.value;
         let password = passwordRef.current.value;
 
-        const {status, token} = await requestLogin(username, password);
+        const {status, access_token, refresh_token} = await requestLogin(username, password);
         if(status === 'success'){
-            dispatch(logIn(username));
-            setCookie('access-token', token, {'httoOnly':true})
-            localStorage.setItem('access-token', token);
+            await setCookie('access-token', access_token, {'httoOnly':true})
+            await localStorage.setItem('refresh-token', refresh_token);
+            await dispatch(logIn(username));
         }else{
             dispatch(logOut());
         }
@@ -84,4 +83,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+export default Login;
