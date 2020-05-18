@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import bluemarlinAPI from "../api/defaultApiUrl";
-import LoginForm from "./LoginForm";
+import Login from "./Login";
 import Main from "./main/Main";
 import "./BlueMarlin.css"
 import {useSelector} from "react-redux";
@@ -15,7 +15,7 @@ const App = () => {
     const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
     return(
         <div className={isLoggedIn?null:"main"}>
-            {isLoggedIn?<Main/>:<LoginForm/>}
+            {isLoggedIn?<Main/>:<Login/>}
             <PopupContainer/>
             <ToastContainer/>
         </div>

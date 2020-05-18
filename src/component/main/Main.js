@@ -19,9 +19,18 @@ const Main = () => {
         }
     }, []);
 
+
+    useEffect(()=>{
+        getUrlSources();
+    }, []);
+
+    useEffect( ()=>{
+    }, [urlSource]);
+
     const onLogOut = () => {
         dispatch(logOut());
-        localStorage.setItem('access-token', null);
+        setCookie('access-token', null);
+        localStorage.setItem('refresh-token', null);
     };
 
     const isEmtpyObject = (param) => {
@@ -50,12 +59,6 @@ const Main = () => {
         }
     };
 
-    useEffect(()=>{
-        getUrlSources();
-    }, []);
-
-    useEffect( ()=>{
-    }, [urlSource]);
 
     return (
         <div>
