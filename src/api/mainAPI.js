@@ -67,3 +67,5 @@ export const setCookie = (key, value) => {
     let expireTime = now + 1000*60*5;
     document.cookie = `${key}=${value};expires=${expireTime}`
 }
+
+

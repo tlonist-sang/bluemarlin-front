@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useCookies} from "react-cookie";
 import {addKeyword, deleteKeyword} from "../../api/mainAPI";
-import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE} from "../../constants";
+import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE} from "../../constant/constants";
 import Popup from "../common/Popup";
 import {openPopup} from "../../actions/PopupActions";
 import {validateText} from "../common/validateInput";
