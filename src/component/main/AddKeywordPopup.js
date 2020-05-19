@@ -4,9 +4,9 @@ import {validateAlphanumeric, validateText} from "../common/validateInput";
 import {addKeyword} from "../../api/mainAPI";
 import {useCookies} from "react-cookie";
 import {closePopup} from "../../actions/PopupActions";
-import {CLOSE_POPUP} from "../../constants";
+import {CLOSE_POPUP} from "../../constant/constants";
 import {useDispatch} from "react-redux";
-import {SUCCESS, FAIL, TOAST_OPTION} from "../../constants";
+import {SUCCESS, FAIL, TOAST_OPTION} from "../../constant/constants";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 

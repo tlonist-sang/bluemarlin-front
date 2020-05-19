@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {useDispatch} from "react-redux";
 import {closePopup} from "../../actions/PopupActions";
-import {CLOSE_POPUP} from "../../constants";
+import {CLOSE_POPUP} from "../../constant/constants";
 
 
 const Popup = ({title, content, contentComponent, actions, onDismiss, disableFooter, width, height}) => {

@@ -6,13 +6,18 @@ import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
 import {useCookies} from "react-cookie";
 import bluemarlinAPI from "../api/defaultApiUrl";
+import {openPopup} from "../actions/PopupActions";
+import {KEYWORD_CREATE} from "../constant/constants";
+import RegisterPopup from "./RegisterPopup";
+
 
 const Login = () => {
     const dispatch = useDispatch();
-    const { register, handleSubmit, watch, errors } = useForm();
+    const {register, handleSubmit, watch, errors} = useForm();
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
     const [cookies, setCookie, removeCookie] = useCookies(['access-token']);
+    const [registerClick, setRegisterClick] = useState(false);
 
     const validateLogin = async() => {
         let token = await cookies['access-token'];
@@ -42,6 +47,7 @@ const Login = () => {
         let password = passwordRef.current.value;
 
         const {status, access_token, refresh_token} = await requestLogin(username, password);
+        debugger;
         if(status === 'success'){
             await setCookie('access-token', access_token, {'httoOnly':true})
             await localStorage.setItem('refresh-token', refresh_token);
@@ -49,6 +55,16 @@ const Login = () => {
         }else{
             dispatch(logOut());
         }
+    }
+
+    const onRegisterButtonClick = () => {
+        dispatch(openPopup(
+            KEYWORD_CREATE, {
+                title: 'bluemarlin',
+                contentComponent: ()=>RegisterPopup(),
+                disableFooter: true
+            }
+        ));
     }
 
     return (
@@ -76,7 +92,7 @@ const Login = () => {
                     <input type={"submit"} value={"Login"} className={"ui large green login button"}/>
                 </form>
                 <div className={"ui message"}>
-                    <button className={"ui large blue register button"}>New to us? Register!</button>
+                    <button className={"ui large blue register button"} onClick={onRegisterButtonClick}>New to us? Register!</button>
                 </div>
             </div>
         </div>

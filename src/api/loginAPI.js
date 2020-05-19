@@ -1,6 +1,6 @@
 import bluemarlinAPI from "./defaultApiUrl";
 import {useDispatch} from "react-redux";
-import {LOG_IN} from "../constants";
+import {LOG_IN} from "../constant/constants";
 import {logIn, logOut} from "../actions";
 import {useCookies} from "react-cookie";
 const queryString = require('querystring');
@@ -28,7 +28,7 @@ export const validateAuthToken = async (token)=> {
             "X-AUTH-TOKEN":token
         }
     }
-    let response = await bluemarlinAPI(option)
+    let response = await bluemarlinAPI(option);
     return response;
 }
 
@@ -41,6 +41,22 @@ export const validateRefreshToken = async (token) => {
             "X-REFRESH-TOKEN":token
         }
     }
-    let response = await bluemarlinAPI(option)
+    let response = await bluemarlinAPI(option);
+    return response;
+}
+
+export const registerUser = async(userId, email, password) => {
+    let url = '/register';
+    let option = {
+        method: 'POST',
+        url: url,
+        data: {
+            userId: userId,
+            email: email,
+            password: password,
+            passwordConfirm: password
+        }
+    }
+    let response = await bluemarlinAPI(option);
     return response;
 }

@@ -1,4 +1,4 @@
-import {LOG_OUT, LOG_IN, SET_TOKEN, DELETE_TOKEN} from "../constants";
+import {LOG_OUT, LOG_IN, SET_TOKEN, DELETE_TOKEN} from "../constant/constants";
 
 
 export const logIn = (id) => {

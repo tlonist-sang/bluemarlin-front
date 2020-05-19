@@ -1,4 +1,4 @@
-import {CLOSE_POPUP, KEYWORD_CREATE, KEYWORD_DELETE, KEYWORD_EDIT} from "../constants"
+import {CLOSE_POPUP, KEYWORD_CREATE, KEYWORD_DELETE, KEYWORD_EDIT, REGISTER} from "../constant/constants"
 
 
 const INITIAL_STATE = {
@@ -46,6 +46,17 @@ export default (state = INITIAL_STATE, action)=>{
                 onDismiss: action.payload.onDismiss,
                 disableFooter: action.payload.disableFooter
             };
+        case REGISTER:
+            return{
+                type: action.type,
+                id: action.payload.id,
+                title: action.payload.title,
+                content: action.payload.content,
+                contentComponent: action.payload.contentComponent,
+                actions: action.payload.actions,
+                onDismiss: action.payload.onDismiss,
+                disableFooter: action.payload.disableFooter
+            }
         case CLOSE_POPUP:
             return {
                 type: null
