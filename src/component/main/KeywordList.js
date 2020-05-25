@@ -7,15 +7,17 @@ import Popup from "../common/Popup";
 import {openPopup} from "../../actions/PopupActions";
 import {validateText} from "../common/validateInput";
 import TextInput from "../common/TextInput";
-import AddKeywordPopup from "./AddKeywordPopup";
+import AddKeywordPopup from "../popups/AddKeywordPopup";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import DeleteKeywordPopup from "../popups/DeleteKeywordPopup";
 
 const KeywordList = ({urlId, keyList, setKeyList}) => {
     const userId = useSelector(state=>state.auth.userId);
     const [cookies, setCookie] = useCookies(['access-token']);
     const ref = useRef([]);
     const [keywords, setKeywords] = useState({});
+    const [deleteResult, setDeleteResult] = useState();
     const dispatch = useDispatch();
 
 
@@ -34,11 +36,10 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
         dispatch(openPopup(
             KEYWORD_DELETE, {
                 title: `Delete ${keyword}`,
-                content: `Are you sure you want to delete ${keyword}?`,
-                actions: ()=>deleteKeyword(cookies['access-token'], urlId, keyword)
+                contentComponent: ()=>DeleteKeywordPopup(cookies['access-token'], keyword, keyList, setKeyList, urlId),
+                disableFooter: true
             }
         ));
-        setKeyList(keyList.filter(e=>e !== keyword));
     }
 
     const renderKeyList = () => {

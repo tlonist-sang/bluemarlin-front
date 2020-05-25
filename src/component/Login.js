@@ -8,7 +8,7 @@ import {useCookies} from "react-cookie";
 import bluemarlinAPI from "../api/defaultApiUrl";
 import {openPopup} from "../actions/PopupActions";
 import {KEYWORD_CREATE} from "../constant/constants";
-import RegisterPopup from "./RegisterPopup";
+import RegisterPopup from "./popups/RegisterPopup";
 
 
 const Login = () => {
@@ -47,7 +47,6 @@ const Login = () => {
         let password = passwordRef.current.value;
 
         const {status, access_token, refresh_token} = await requestLogin(username, password);
-        debugger;
         if(status === 'success'){
             await setCookie('access-token', access_token, {'httoOnly':true})
             await localStorage.setItem('refresh-token', refresh_token);
@@ -62,7 +61,9 @@ const Login = () => {
             KEYWORD_CREATE, {
                 title: 'bluemarlin',
                 contentComponent: ()=>RegisterPopup(),
-                disableFooter: true
+                disableFooter: true,
+                width: 700,
+                height: 500
             }
         ));
     }

@@ -38,3 +38,8 @@
 .x-icon:focus{
     cursor: pointer
 }
+
+.register-button{
+    margin-top: 50px;
+    margin-left: 230px;
+}
