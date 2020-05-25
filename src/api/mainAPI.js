@@ -1,5 +1,6 @@
 import {useCookies} from "react-cookie";
 import bluemarlinAPI from "./defaultApiUrl";
+import {validateRefreshToken} from "./loginAPI";
 const queryString = require('querystring');
 
 
@@ -68,4 +69,44 @@ export const setCookie = (key, value) => {
     document.cookie = `${key}=${value};expires=${expireTime}`
 }
 
+export const getUserSetting = async(token) => {
+    let url = "/api/v1/setting"
+    let option = {
+        method: 'GET',
+        url: url,
+        headers: {
+            "X-AUTH-TOKEN":token
+        }
+    }
+    let response = await bluemarlinAPI(option)
+        .catch(async e=>{
+            await renewAccessToken();
+        });
+    return response.data;
+}
 
+export const updateUserSetting = async(token, interval, useIntersection) => {
+    let url = "/api/v1/setting"
+    let option = {
+        method: 'POST',
+        url: url,
+        headers: {
+            "X-AUTH-TOKEN":token
+        },
+        data: {
+            mailingInterval: interval,
+            keywordIntersection: useIntersection
+        }
+    }
+    let response = await bluemarlinAPI(option)
+        .catch(e=>{
+            renewAccessToken();
+        });
+    return response.data;
+}
+
+export const renewAccessToken = async () => {
+    let refreshToken = localStorage.getItem('refresh-token');
+    let response = await validateRefreshToken(refreshToken);
+    await setCookie('access-token', response.headers["x-auth-token"], {'httoOnly':true})
+}

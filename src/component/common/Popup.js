@@ -5,14 +5,14 @@ import {closePopup} from "../../actions/PopupActions";
 import {CLOSE_POPUP} from "../../constant/constants";
 
 
-const Popup = ({title, content, contentComponent, actions, onDismiss, disableFooter, width, height}) => {
+const Popup = ({title, content, data, contentComponent, actions, setActionResult, onDismiss, disableFooter, width, height}) => {
     const dispatch = useDispatch();
     const onClose = () => {
         dispatch(closePopup(CLOSE_POPUP));
     }
 
-    const onConfirm = () => {
-        actions();
+    const onConfirm = async () => {
+        let response = await actions();
         dispatch(closePopup(CLOSE_POPUP));
     }
 
@@ -22,13 +22,13 @@ const Popup = ({title, content, contentComponent, actions, onDismiss, disableFoo
                 className={"ui standard modal visible active"}
                 style={
                     {
-                        "width": 700,
-                        "height": 180
+                        "width": width?width:700,
+                        "height": height?height:180
                     }
                 }
             >
                 <div>
-                    <h2 className={"ui left floated header"}>{title}</h2>
+                    <h2 style={{"margin":"15px 0 15px 15px"}} className={"ui left floated header"}>{title}</h2>
                     <i
                         className={"close icon"} style={{"margin":"10px 0 0 430px"}}
                         onClick={onClose}
@@ -41,16 +41,17 @@ const Popup = ({title, content, contentComponent, actions, onDismiss, disableFoo
                         {contentComponent?contentComponent():null}
                     </div>
                 </div>
-                <div className="ui horizontal header divider"/>
-                {disableFooter?
-                    null:<div style={{"margin":"10px 0 0 10px"}}>
-                    <button className={"ui button medium blue"} onClick={onConfirm}>
-                        confirm
-                    </button>
-                    <button className={"ui button medium red"} onClick={onClose}>
-                        cancel
-                    </button>
-                </div>}
+                {!disableFooter && <div className="ui horizontal header divider"/>}
+                {!disableFooter &&
+                    <div style={{"margin":"10px 0 0 10px"}}>
+                        <button className={"ui button medium blue"} onClick={onConfirm}>
+                            confirm
+                        </button>
+                        <button className={"ui button medium red"} onClick={onClose}>
+                            cancel
+                        </button>
+                    </div>
+                }
             </div>
         </div>
     )
