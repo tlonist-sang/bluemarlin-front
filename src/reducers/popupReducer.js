@@ -1,4 +1,4 @@
-import {CLOSE_POPUP, KEYWORD_CREATE, KEYWORD_DELETE, KEYWORD_EDIT, REGISTER} from "../constant/constants"
+import {CLOSE_POPUP, KEYWORD_CREATE, KEYWORD_DELETE, KEYWORD_EDIT, REGISTER, USER_SETTING} from "../constant/constants"
 
 
 const INITIAL_STATE = {
@@ -56,6 +56,20 @@ export default (state = INITIAL_STATE, action)=>{
                 height: action.payload.height
             };
         case REGISTER:
+            return{
+                type: action.type,
+                id: action.payload.id,
+                title: action.payload.title,
+                content: action.payload.content,
+                contentComponent: action.payload.contentComponent,
+                actions: action.payload.actions,
+                setActionResult:action.payload.setActionResult,
+                onDismiss: action.payload.onDismiss,
+                disableFooter: action.payload.disableFooter,
+                width: action.payload.width,
+                height: action.payload.height
+            };
+        case USER_SETTING:
             return{
                 type: action.type,
                 id: action.payload.id,

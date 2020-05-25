@@ -28,7 +28,7 @@ const Popup = ({title, content, data, contentComponent, actions, setActionResult
                 }
             >
                 <div>
-                    <h2 className={"ui left floated header"}>{title}</h2>
+                    <h2 style={{"margin":"15px 0 15px 15px"}} className={"ui left floated header"}>{title}</h2>
                     <i
                         className={"close icon"} style={{"margin":"10px 0 0 430px"}}
                         onClick={onClose}

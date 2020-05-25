@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useCookies} from "react-cookie";
 import {addKeyword, deleteKeyword} from "../../api/mainAPI";
-import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE} from "../../constant/constants";
+import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE, USER_SETTING} from "../../constant/constants";
 import Popup from "../common/Popup";
 import {openPopup} from "../../actions/PopupActions";
 import {validateText} from "../common/validateInput";
@@ -11,6 +11,7 @@ import AddKeywordPopup from "../popups/AddKeywordPopup";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteKeywordPopup from "../popups/DeleteKeywordPopup";
+import UserSettingPopup from "../popups/UserSettingPopup";
 
 const KeywordList = ({urlId, keyList, setKeyList}) => {
     const userId = useSelector(state=>state.auth.userId);
@@ -20,6 +21,17 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
     const [deleteResult, setDeleteResult] = useState();
     const dispatch = useDispatch();
 
+    const onSettingClick = () => {
+        dispatch(openPopup(
+            USER_SETTING, {
+                title: 'Settings',
+                contentComponent: ()=>UserSettingPopup(),
+                disableFooter: true,
+                width: 600,
+                height: 300
+            }
+        ))
+    }
 
     const onAddButtonClick = () => {
         dispatch(openPopup(
@@ -63,8 +75,8 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
             <div className={"ui button medium"} style={{"margin": "0 0 6px 3px"}} onClick={onAddButtonClick}>
                 <i className="plus icon" style={{"marginRight":-3}}></i>
             </div>
-            <div className={"ui button medium"} style={{"margin": "0 25px 6px 3px"}}>
-                <i className="trash icon" style={{"marginRight":-3}}></i>
+            <div className={"ui button medium"} style={{"margin": "0 25px 6px 3px"}} onClick={onSettingClick}>
+                <i className="cog icon" style={{"marginRight":-3}}></i>
             </div>
             {renderKeyList()}
         </div>
