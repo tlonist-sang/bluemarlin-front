@@ -19,13 +19,14 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
     const ref = useRef([]);
     const [keywords, setKeywords] = useState({});
     const [deleteResult, setDeleteResult] = useState();
+    const [isScheduling, setIsScheduling] = useState();
     const dispatch = useDispatch();
 
     const onSettingClick = () => {
         dispatch(openPopup(
             USER_SETTING, {
                 title: 'Settings',
-                contentComponent: ()=>UserSettingPopup(),
+                contentComponent: ()=>UserSettingPopup(urlId),
                 disableFooter: true,
                 width: 600,
                 height: 300
@@ -44,6 +45,10 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
 
     }
 
+    const onActivateSchedulingClick = () => {
+
+    }
+
     const deletePopup = (keyword) => {
         dispatch(openPopup(
             KEYWORD_DELETE, {
@@ -57,7 +62,7 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
     const renderKeyList = () => {
         return keyList.map((word) => {
             return(
-                <div className = {"ui animated button"} style={{"margin": "0 0 3px 3px"}}>
+                <div className = {"ui animated button"} style={{"margin": "0 0 3px 3px"}} onClick={()=>deletePopup(word)}>
                     <div className={"visible content"}>
                         {word}
                     </div>
@@ -75,8 +80,13 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
             <div className={"ui button medium"} style={{"margin": "0 0 6px 3px"}} onClick={onAddButtonClick}>
                 <i className="plus icon" style={{"marginRight":-3}}></i>
             </div>
-            <div className={"ui button medium"} style={{"margin": "0 25px 6px 3px"}} onClick={onSettingClick}>
+            <div className={"ui button medium"} style={{"margin": "0 0 6px 3px"}} onClick={onSettingClick}>
                 <i className="cog icon" style={{"marginRight":-3}}></i>
+            </div>
+            <div className={isScheduling?"ui button medium red":"ui button medium green"} style={{"margin": "0 30px 6px 3px"}} onClick={onActivateSchedulingClick}>
+                {isScheduling
+                    ?<i className={"pause circle outline icon"} style={{"marginRight":-3}}></i>
+                    :<i className={"play circle outline icon"} style={{"marginRight":-3}}></i>}
             </div>
             {renderKeyList()}
         </div>
