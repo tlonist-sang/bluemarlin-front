@@ -69,13 +69,16 @@ export const setCookie = (key, value) => {
     document.cookie = `${key}=${value};expires=${expireTime}`
 }
 
-export const getUserSetting = async(token) => {
-    let url = "/api/v1/setting"
+export const getUrlSetting = async(token, urlId) => {
+    let url = "/api/v1/url-setting"
     let option = {
         method: 'GET',
         url: url,
         headers: {
             "X-AUTH-TOKEN":token
+        },
+        params: {
+            urlId: urlId
         }
     }
     let response = await bluemarlinAPI(option)
@@ -85,8 +88,8 @@ export const getUserSetting = async(token) => {
     return response.data;
 }
 
-export const updateUserSetting = async(token, interval, useIntersection) => {
-    let url = "/api/v1/setting"
+export const updateUrlSetting = async(token, urlId, interval, useIntersection) => {
+    let url = "/api/v1/url-setting"
     let option = {
         method: 'POST',
         url: url,
@@ -94,6 +97,7 @@ export const updateUserSetting = async(token, interval, useIntersection) => {
             "X-AUTH-TOKEN":token
         },
         data: {
+            urlId: urlId,
             mailingInterval: interval,
             keywordIntersection: useIntersection
         }
@@ -104,6 +108,23 @@ export const updateUserSetting = async(token, interval, useIntersection) => {
         });
     return response.data;
 }
+
+export const startScheduling = async (token, urlId) => {
+    let url = "/api/v1/schedule"
+    let option = {
+        method: 'POST',
+        url: url,
+        headers: {
+            "X-AUTH-TOKEN":token
+        }
+    }
+    let response = await bluemarlinAPI(option)
+        .catch(e=>{
+            renewAccessToken();
+        });
+    return response.data;
+}
+
 
 export const renewAccessToken = async () => {
     let refreshToken = localStorage.getItem('refresh-token');

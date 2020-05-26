@@ -1,11 +1,12 @@
 import React, {useRef, useEffect, useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {closePopup} from "../../actions/PopupActions";
-import {CLOSE_POPUP} from "../../constant/constants";
-import {getUrlSourceList, getUserSetting, updateUserSetting} from "../../api/mainAPI";
+import {CLOSE_POPUP, TOAST_OPTION} from "../../constant/constants";
+import {getUrlSourceList, getUrlSetting, updateUrlSetting} from "../../api/mainAPI";
 import {useCookies} from "react-cookie";
+import {toast} from "react-toastify";
 
-const UserSettingPopup = () => {
+const UserSettingPopup = (urlId) => {
     const dispatch = useDispatch();
     const [cookies, setCookie] = useCookies(['access-token']);
     const intervalRef = useRef();
@@ -17,10 +18,8 @@ const UserSettingPopup = () => {
     }, []);
 
     const getUserSettingInfo = useCallback(async () => {
-        debugger;
-        let {status, datum} = await getUserSetting(cookies['access-token']);
+        let {status, datum} = await getUrlSetting(cookies['access-token'], urlId);
         if(status  === 'success'){
-            debugger;
            intervalRef.current.value = datum.mailingInterval;
            toggleRef.current.checked = datum.keywordIntersection;
         }
@@ -32,7 +31,11 @@ const UserSettingPopup = () => {
         let interval = intervalRef.current.value;
         let useIntersection = toggleRef.current.checked;
 
-        let response = await updateUserSetting(cookies['access-token'], interval, useIntersection);
+        let response = await updateUrlSetting(cookies['access-token'], urlId, interval, useIntersection);
+        if(response.status === 'success')
+            toast.success('edited successfully', TOAST_OPTION);
+        else
+            toast.error('failed to update', TOAST_OPTION);
         await dispatch(closePopup(CLOSE_POPUP));
     }
 
