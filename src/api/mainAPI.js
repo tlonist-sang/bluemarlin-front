@@ -1,5 +1,5 @@
 import {useCookies} from "react-cookie";
-import bluemarlinAPI,{bluemarlinapis} from "./defaultApiUrl";
+import bluemarlinAPI,{bluemarlinapis} from "./baseApi";
 import {validateRefreshToken} from "./loginAPI";
 const queryString = require('querystring');
 
