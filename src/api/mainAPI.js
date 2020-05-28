@@ -109,13 +109,17 @@ export const updateUrlSetting = async(token, urlId, interval, useIntersection) =
     return response.data;
 }
 
-export const startScheduling = async (token, urlId) => {
+export const updateSchedulingStatus = async (token, urlId, isScheduling) => {
     let url = "/api/v1/schedule"
     let option = {
         method: 'POST',
         url: url,
         headers: {
             "X-AUTH-TOKEN":token
+        },
+        data: {
+            isScheduling: isScheduling,
+            urlId: urlId
         }
     }
     let response = await bluemarlinAPI(option)
