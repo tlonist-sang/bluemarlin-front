@@ -49,6 +49,7 @@ const Main = () => {
                                         url = {value.url}
                                         urlId = {value.id}
                                         keyList={value.keywordDtoList.map(v=>{return v.word})}
+                                        isScheduling={value.isScheduling}
                                     />
                                 </div>
                             </div>

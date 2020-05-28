@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import KeywordList from "./KeywordList";
 import Loading from "../common/Loading";
 
-const UrlSource = ({url, urlId, keyList}) => {
+const UrlSource = ({url, urlId, keyList, isScheduling}) => {
     const [keywordFromUrl, setKeywordFromUrl] = useState(keyList);
     useEffect(()=>{
         setKeywordFromUrl(keyList);
@@ -17,6 +17,7 @@ const UrlSource = ({url, urlId, keyList}) => {
                     urlId = {urlId}
                     keyList = {keywordFromUrl}
                     setKeyList = {setKeywordFromUrl}
+                    isScheduling = {isScheduling}
                 />:
                 <Loading/>
             }

@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useCookies} from "react-cookie";
-import {addKeyword, deleteKeyword} from "../../api/mainAPI";
-import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE, USER_SETTING} from "../../constant/constants";
+import {addKeyword, deleteKeyword, updateSchedulingStatus} from "../../api/mainAPI";
+import {SUCCESS, FAIL, KEYWORD_DELETE, KEYWORD_CREATE, USER_SETTING, TOAST_OPTION} from "../../constant/constants";
 import Popup from "../common/Popup";
 import {openPopup} from "../../actions/PopupActions";
 import {validateText} from "../common/validateInput";
@@ -13,13 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import DeleteKeywordPopup from "../popups/DeleteKeywordPopup";
 import UserSettingPopup from "../popups/UserSettingPopup";
 
-const KeywordList = ({urlId, keyList, setKeyList}) => {
+
+const KeywordList = ({urlId, keyList, setKeyList, isScheduling}) => {
     const userId = useSelector(state=>state.auth.userId);
     const [cookies, setCookie] = useCookies(['access-token']);
     const ref = useRef([]);
     const [keywords, setKeywords] = useState({});
     const [deleteResult, setDeleteResult] = useState();
-    const [isScheduling, setIsScheduling] = useState();
+    const [scheduling, setScheduling] = useState(isScheduling);
     const dispatch = useDispatch();
 
     const onSettingClick = () => {
@@ -45,8 +46,18 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
 
     }
 
-    const onActivateSchedulingClick = () => {
-
+    const onActivateSchedulingClick = async () => {
+        let {status} = await updateSchedulingStatus(cookies['access-token'], urlId, !scheduling)
+        await setScheduling(!scheduling);
+        if(status === 'success'){
+            if(scheduling === true){
+                toast.success('Schedule stopped.', TOAST_OPTION);
+            }else{
+                toast.success('Schedule started.', TOAST_OPTION);
+            }
+        }else{
+            toast.error('update failed.', TOAST_OPTION);
+        }
     }
 
     const deletePopup = (keyword) => {
@@ -83,8 +94,8 @@ const KeywordList = ({urlId, keyList, setKeyList}) => {
             <div className={"ui button medium"} style={{"margin": "0 0 6px 3px"}} onClick={onSettingClick}>
                 <i className="cog icon" style={{"marginRight":-3}}></i>
             </div>
-            <div className={isScheduling?"ui button medium red":"ui button medium green"} style={{"margin": "0 30px 6px 3px"}} onClick={onActivateSchedulingClick}>
-                {isScheduling
+            <div className={scheduling?"ui button medium red":"ui button medium green"} style={{"margin": "0 30px 6px 3px"}} onClick={onActivateSchedulingClick}>
+                {scheduling
                     ?<i className={"pause circle outline icon"} style={{"marginRight":-3}}></i>
                     :<i className={"play circle outline icon"} style={{"marginRight":-3}}></i>}
             </div>
