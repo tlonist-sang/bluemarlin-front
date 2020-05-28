@@ -1,8 +1,7 @@
 import {useCookies} from "react-cookie";
-import bluemarlinAPI from "./defaultApiUrl";
+import bluemarlinAPI,{bluemarlinapis} from "./defaultApiUrl";
 import {validateRefreshToken} from "./loginAPI";
 const queryString = require('querystring');
-
 
 export const getUrlSourceList = async (token) => {
     let url = '/api/v1/url';
@@ -13,11 +12,7 @@ export const getUrlSourceList = async (token) => {
             "X-AUTH-TOKEN":token
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(e=>{
-
-        });
-    setCookie('access-token',response.headers["x-auth-token"]);
+    let response = await bluemarlinapis()(option);
     return response.data;
 }
 
@@ -34,11 +29,7 @@ export const addKeyword = async(token, urlId, keywordToAdd) => {
             keyword: keywordToAdd
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(e=>{
-
-        });
-    setCookie('access-token',response.headers["x-auth-token"]);
+    let response = await bluemarlinapis()(option)
     return response.data;
 }
 
@@ -55,11 +46,7 @@ export const deleteKeyword = async (token, urlId, keywordToDelete) => {
             keyword: keywordToDelete
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(e=>{
-
-        });
-    setCookie('access-token',response.headers["x-auth-token"]);
+    let response = await bluemarlinapis()(option);
     return response.data;
 }
 
@@ -81,10 +68,7 @@ export const getUrlSetting = async(token, urlId) => {
             urlId: urlId
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(async e=>{
-            await renewAccessToken();
-        });
+    let response = await bluemarlinapis()(option);
     return response.data;
 }
 
@@ -102,10 +86,7 @@ export const updateUrlSetting = async(token, urlId, interval, useIntersection) =
             keywordIntersection: useIntersection
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(e=>{
-            renewAccessToken();
-        });
+    let response = await bluemarlinapis()(option);
     return response.data;
 }
 
@@ -122,10 +103,7 @@ export const updateSchedulingStatus = async (token, urlId, isScheduling) => {
             urlId: urlId
         }
     }
-    let response = await bluemarlinAPI(option)
-        .catch(e=>{
-            renewAccessToken();
-        });
+    let response = await bluemarlinapis()(option);
     return response.data;
 }
 
