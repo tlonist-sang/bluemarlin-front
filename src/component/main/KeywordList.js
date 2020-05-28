@@ -51,9 +51,9 @@ const KeywordList = ({urlId, keyList, setKeyList, isScheduling}) => {
         await setScheduling(!scheduling);
         if(status === 'success'){
             if(scheduling === true){
-                toast.success('Schedule stopped.', TOAST_OPTION);
+                toast.success('Schedule Stopped.', TOAST_OPTION);
             }else{
-                toast.success('Schedule started.', TOAST_OPTION);
+                toast.success('Schedule Started.', TOAST_OPTION);
             }
         }else{
             toast.error('update failed.', TOAST_OPTION);

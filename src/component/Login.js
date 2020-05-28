@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
 import {useCookies} from "react-cookie";
-import bluemarlinAPI from "../api/defaultApiUrl";
+import bluemarlinAPI from "../api/baseApi";
 import {openPopup} from "../actions/PopupActions";
 import {KEYWORD_CREATE} from "../constant/constants";
 import RegisterPopup from "./popups/RegisterPopup";

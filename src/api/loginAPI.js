@@ -1,4 +1,4 @@
-import bluemarlinAPI from "./defaultApiUrl";
+import bluemarlinAPI from "./baseApi";
 import {useDispatch} from "react-redux";
 import {LOG_IN} from "../constant/constants";
 import {logIn, logOut} from "../actions";

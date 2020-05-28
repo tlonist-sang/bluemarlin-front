@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import bluemarlinAPI from "../api/defaultApiUrl";
+import bluemarlinAPI from "../api/baseApi";
 import Login from "./Login";
 import Main from "./main/Main";
 import "./BlueMarlin.css"
