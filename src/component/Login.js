@@ -69,7 +69,7 @@ const Login = () => {
     }
 
     return (
-        <div className={"ui center aligned grid"} style={{"marginTop":"200px"}}>
+        <div className={"ui center aligned grid"} style={{"marginTop":"100px"}}>
             <div className={"column"}>
                 <img className={"logo"} src={bluemarlin}/>
                 <form className={"ui large form form-margin"} onSubmit={handleSubmit(onSubmit)}>
